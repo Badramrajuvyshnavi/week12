@@ -29,14 +29,13 @@ pipeline {
             }
         }
         stage('Docker Login') {
-            steps {
-               
-                    bat '''
-                        docker login -u vyshnavi1201 -p Vyshnavi@143
-                    '''
-                
-            }
+    steps {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub_creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+            bat 'docker login -u vyshnavi1201 -p Vyshnavi@143'
         }
+    }
+}
+
         stage('push Docker Image to Docker Hub') {
             steps {
                 echo "push Docker Image to Docker Hub"
